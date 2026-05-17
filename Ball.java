@@ -1,4 +1,3 @@
-import java.awt.Color;
 import java.awt.*;
 
 public class Ball {
@@ -26,10 +25,15 @@ public class Ball {
         // moves the ball
 		if (stuckToPaddle) {
             return;
-
+        }
 		myX += dx;
         myY += dy;
         bounceWall(rightEdge);
+    }
+
+    public void draw(Graphics myBuffer) {
+        myBuffer.setColor(myColor);
+        myBuffer.fillOval(myX, myY, myDiameter, myDiameter);
     }
     
     public void setdx(double x) {
@@ -40,6 +44,18 @@ public class Ball {
     public void setdy(double y) {
         // changes vertical speed
 		dy = y;
+    }
+
+    public void setX(int x) {
+        myX = x;
+    }
+
+    public void setY(int x) {
+        myY = x;
+    }
+
+    public void setStuckToPaddle(boolean x) {
+        stuckToPaddle = x;
     }
     
     public void bouncePaddle() {

@@ -41,6 +41,30 @@ public class MainPanel extends JPanel {
         t.start();
     }
 
+    private void buildBlocks() {
+        for (int i = 0; i < blocks.length; i++) {
+            for (int j = 0; j < blocks[0].length; j++) {
+                int powerUpType = 1;
+
+                if (i == 0) {
+                    powerUpType = 2;       
+                }
+                if (i == 2 && j == 1) {
+                    powerUpType = 3;      
+                }
+                if (i == 3 && j == 4) {
+                    powerUpType = 4;       
+                }
+                if (i == 4 && j == 6) {
+                    powerUpType = 5;       
+                }
+
+                blocks[i][j] = new Block(i, j, powerUpType);
+            }
+        }
+    }
+
+
    public void paintComponent(Graphics g) {
        // draws components on panel
         super.paintComponent(g);
@@ -93,7 +117,7 @@ public class MainPanel extends JPanel {
                 paddle.moveRight(); // if right, move right
            
             if(e.getKeyCode() == KeyEvent.VK_UP)
-                paddle.shoot(); // if up, shoot
+                paddle.shoot(ball); // if up, shoot
         }
     }
     

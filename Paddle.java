@@ -7,10 +7,10 @@ public class Paddle {
     private Color myColor = Color.RED;
     private int myWidth = 100;
     private int myHeight = 25;
-    private int xSpeed = 3;
+    private int xSpeed = 5;
 
     private int normalWidth = 100;
-    private int normalSpeed = 3;
+    private int normalSpeed = 5;
     private int rightEdge = 600;
 
    public Paddle() {
@@ -40,6 +40,10 @@ public class Paddle {
             myX = rightEdge - myWidth;
         }
     }
+
+    public void shoot() {
+       
+    }
    
     public void shoot(Ball ball) {
         // when the ball is on the paddle, sets the ball's dx and dy to a value
@@ -65,7 +69,7 @@ public class Paddle {
     
     public void slowDown() {
         // changes paddle xSpeed temporarily
-        xSpeed = 1;
+        xSpeed = 3;
     }
 
     public void resetSpeed() {
@@ -105,7 +109,7 @@ public class Paddle {
     }
     
     private double distance(double x1, double x2, double y1, double y2) {
-        return 0;
         // calculates distance using pythagorean theorem
+        return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
     }
 }
