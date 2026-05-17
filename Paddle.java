@@ -50,7 +50,7 @@ public class Paddle {
         if (ball.isStuckToPaddle()) {
             ball.setStuckToPaddle(false);
             ball.setdx(3);
-            ball.setdy(-4);
+            ball.setdy(-3);
         }
     }
    
