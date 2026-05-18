@@ -30,7 +30,8 @@ public class Block {
         if (blockType == 0) {
             return;
         }
-
+        
+        // draws block according to power up
         if (blockType == 1) {
             myBuffer.setColor(Color.BLUE);
         }
@@ -51,7 +52,8 @@ public class Block {
         myBuffer.setColor(Color.WHITE);
         myBuffer.drawRect(blockX, blockY, BLOCK_WIDTH, BLOCK_HEIGHT);
       if (blockType == 2) {
-        myBuffer.drawString("2", blockX + BLOCK_WIDTH / 2 - 4, blockY + 17);
+          if (hitsLeft == 2)
+            myBuffer.drawString("2", blockX + BLOCK_WIDTH / 2 - 4, blockY + 17);
       }
     }
 

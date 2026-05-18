@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
-import java.util.concurrent.TimeUnit;
 
 public class MainPanel extends JPanel {
    
@@ -46,17 +45,16 @@ public class MainPanel extends JPanel {
             for (int j = 0; j < blocks[0].length; j++) {
                 int powerUpType = 1;
 
-                if (i == 0) {
-                    powerUpType = 2;       
-                }
-                if (i == 2 && j == 1) {
-                    powerUpType = 3;      
-                }
-                if (i == 3 && j == 4) {
-                    powerUpType = 4;       
-                }
-                if (i == 4 && j == 6) {
-                    powerUpType = 5;       
+                double d = Math.random() * 11;
+                
+                if (d > 6) {
+                    powerUpType = 2;
+                } if (d > 7) {
+                    powerUpType = 3;
+                } if (d > 8) {
+                    powerUpType = 4;
+                } if (d > 10) {
+                    powerUpType = 5;
                 }
 
                 blocks[i][j] = new Block(i, j, powerUpType);
@@ -216,11 +214,6 @@ public class MainPanel extends JPanel {
             }
         }
         return true;
-    }
-
-    private double distance(double x1, double x2, double y1, double y2) {
-        // calculates distance using pythagorean theorem
-        return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
     }
 
     public void laser(int column) {
