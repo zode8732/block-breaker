@@ -7,13 +7,13 @@ public class Paddle {
     private Color myColor = Color.RED;
     private int myWidth = 100;
     private int myHeight = 25;
-    private int xSpeed = 12;
+    private int xSpeed = 7;
 
     private int normalWidth = 100;
-    private int normalSpeed = 12;
+    private int normalSpeed = 7;
     private int rightEdge = 600;
 
-   public Paddle() {
+    public Paddle() {
        
     }
 
@@ -50,7 +50,7 @@ public class Paddle {
         if (ball.isStuckToPaddle()) {
             ball.setStuckToPaddle(false);
             ball.setdx(3);
-            ball.setdy(-3);
+            ball.setdy(-4);
         }
     }
    
@@ -69,7 +69,7 @@ public class Paddle {
     
     public void slowDown() {
         // changes paddle xSpeed temporarily
-        xSpeed = 5;
+        xSpeed = 3;
     }
 
     public void resetSpeed() {
@@ -106,5 +106,10 @@ public class Paddle {
 
     public Rectangle getBounds() {
         return new Rectangle(myX, myY, myWidth, myHeight);
+    }
+    
+    private double distance(double x1, double x2, double y1, double y2) {
+        // calculates distance using pythagorean theorem
+        return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
     }
 }
