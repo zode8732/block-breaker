@@ -14,7 +14,7 @@ public class Block {
     private static final int GAP = 10;
    
     public Block(int i, int j, int powerUpType) {
-        // creates block with power up and location
+        /** creates block with power up and location */
         blockType = powerUpType;
         blockX = START_X + j * (BLOCK_WIDTH + GAP);
         blockY = START_Y + i * (BLOCK_HEIGHT + GAP);
@@ -31,7 +31,7 @@ public class Block {
             return;
         }
         
-        // draws block according to power up
+        /** draws block according to power up */
         if (blockType == 1) {
             myBuffer.setColor(Color.BLUE);
         }
@@ -63,7 +63,7 @@ public class Block {
     }
     
     public int brokenBlock() {
-        // makes sure to get rid of block
+        /**  makes sure to get rid of block */
         if (blockType == 0) {
             return 0;
         }
@@ -80,12 +80,12 @@ public class Block {
     }
 
     public void forceBreak() {
-        // breaks block without fail
+        /** breaks block without fail */
         blockType = 0;
         hitsLeft = 0;
     }
 
-    // get methods
+    /** get methods */
     
     public boolean isBroken() {
         return blockType == 0;

@@ -17,7 +17,8 @@ public class Paddle {
        
     }
 
-    public Paddle(int y, Color color, int width, int height) { // Makes the paddle
+    public Paddle(int y, Color color, int width, int height) {
+    /** Makes the paddle with given parameters */
        myY = y;
        myColor = color;
        myWidth = width;
@@ -26,7 +27,7 @@ public class Paddle {
     }
    
     public void moveLeft() {
-        // decreases the x value of the panel
+        /** decreases the x value of the panel */
        myX -= xSpeed;
        if (myX < 0) {
           myX = 0;
@@ -34,7 +35,7 @@ public class Paddle {
     }
    
     public void moveRight() {
-        // increases x value of the panel
+        /** increases x value of the panel */
         myX += xSpeed;
         if (myX + myWidth > rightEdge) {
             myX = rightEdge - myWidth;
@@ -46,7 +47,7 @@ public class Paddle {
     }
    
     public void shoot(Ball ball) {
-        // when the ball is on the paddle, sets the ball's dx and dy to a value
+        /** when the ball is on the paddle, sets the ball's dx and dy to a value */
         if (ball.isStuckToPaddle()) {
             ball.setStuckToPaddle(false);
             ball.setdx(3);
@@ -55,20 +56,20 @@ public class Paddle {
     }
    
     public void draw(Graphics myBuffer) {
-        // draws paddle
+        /** draws paddle */
         myBuffer.setColor(myColor);
         myBuffer.fillRect(myX, myY, myWidth, myHeight);
     }
    
     public boolean touchesBall(Ball ball) {
-        // checks if paddle is touching ball to change ball direction
+        /** checks if paddle is touching ball to change ball direction */
         return getBounds().intersects(ball.getBounds()) && ball.getdy() > 0;
     }
 
-    // these two methods change speed for a power up
+    /** these two methods change speed for a power up */
     
     public void slowDown() {
-        // changes paddle xSpeed temporarily
+        /** changes paddle xSpeed temporarily */
         xSpeed = 5;
     }
 
@@ -77,7 +78,7 @@ public class Paddle {
     }
 
     public void makeBig() {
-        // paddle with is modified temporarily
+        /** paddle with is modified temporarily */
         myWidth = 150;
         if (myX + myWidth > rightEdge) {
             myX = rightEdge - myWidth;
@@ -87,6 +88,11 @@ public class Paddle {
     public void resetWidth() {
         myWidth = normalWidth;
     }
+
+    /**
+     * get methods
+     * @return fields
+     */
 
     public int getX() {
         return myX;

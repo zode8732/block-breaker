@@ -21,10 +21,14 @@ public class PaddleCollision {
     }
 
     private static void findImpactPoint(Paddle paddle, Ball ball) {
-        
+        /**
+         * methods not relevant for purpose of project
+         */
     }
 
     private static void findImpactPoint(Block block, Ball ball) {
-        
+        /**
+         * methods not relevant for purpose of project
+         */
     }
 }

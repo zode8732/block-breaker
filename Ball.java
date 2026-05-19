@@ -14,7 +14,7 @@ public class Ball {
     private boolean stuckToPaddle = true;
 
     public Ball(int x, int y) {
-        // instantiates ball object at the x and y values necessary
+        /** instantiates ball object at the x and y values necessary */
 		myX = x;
         myY = y;
         startX = x;
@@ -37,12 +37,12 @@ public class Ball {
     }
     
     public void setdx(double x) {
-        // changes horizontal speed
+        /** changes horizontal speed */
 	  dx = x;
     }
     
     public void setdy(double y) {
-        // changes vertical speed
+        /** changes vertical speed */
 		dy = y;
     }
 
@@ -59,12 +59,12 @@ public class Ball {
     }
     
     public void bouncePaddle() {
-        // if ball is touching the paddle, make it bounce. called for each iteration
+        /** if ball is touching the paddle, make it bounce. called for each iteration */
 		dy = -Math.abs(dy);
     }
 	
 	public void bouncePaddle(Paddle paddle) {
-        // if ball is touching the paddle, make it bounce. called for each iteration
+        /** if ball is touching the paddle, make it bounce. called for each iteration */
 		double paddleCenter = paddle.getX() + paddle.getWidth() / 2.0;
         double ballCenter = getCenterX();
         double hitPosition = (ballCenter - paddleCenter) / (paddle.getWidth() / 2.0);
@@ -76,12 +76,12 @@ public class Ball {
     }
     
     public void bounceWall() {
-        // if ball touches wall, bounces off wall
+        /** if ball touches wall, bounces off wall */
 		bounceWall(600);
     }
 
 	public void bounceWall(double rightEdge) {
-		// if ball touches wall, bounces off wall
+		/** if ball touches wall, bounces off wall */
         if (myX <= 0) {
             myX = 0;
             dx = Math.abs(dx);
@@ -99,11 +99,11 @@ public class Ball {
     }
     
     public void bounceBlock() {
-        // if hits block, bounce off block
+        /** if hits block, bounce off block */
 		dy *= -1;
     }
 
-	// self explanatory get methods
+	/** self explanatory get methods */
 
     public double getdx() {
         return dx;
@@ -146,13 +146,13 @@ public class Ball {
     }
 
 	public void stickToPaddle(Paddle paddle) {
-		// sends to top left of paddle
+		/** sends to top left of paddle */
         myX = paddle.getX() + paddle.getWidth() / 2 - myDiameter / 2;
         myY = paddle.getY() - myDiameter - 2;
     }
     
     public void resetBall() {
-        // resets ball position
+        /** resets ball position */
 		myX = startX;
         myY = startY;
         dx = 0;

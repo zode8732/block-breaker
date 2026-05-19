@@ -26,7 +26,7 @@ public class MainPanel extends JPanel {
     private int slowTimer = 0;
    
     public MainPanel() {
-       // initiates a tall panel for user
+       /** initiates a tall panel for user */
        setPreferredSize(new Dimension(FRAME, PANEL_HEIGHT));
         setFocusable(true);
 
@@ -64,7 +64,7 @@ public class MainPanel extends JPanel {
 
 
    public void paintComponent(Graphics g) {
-       // draws components on panel
+       /** draws components on panel */
         super.paintComponent(g);
 
         myBuffer.setColor(BACKGROUND);
@@ -102,32 +102,32 @@ public class MainPanel extends JPanel {
     }
    
     private class Key extends KeyAdapter {
-        // check if left, right, and/or up keys are pressed
+        /** check if left, right, and/or up keys are pressed */
         public void keyPressed(KeyEvent e) {
             if (gameOver || gameWon) {
                 return;
             }
             
             if(e.getKeyCode() == KeyEvent.VK_LEFT)
-                paddle.moveLeft(); // if left, move left
+                paddle.moveLeft(); /** if left, move left */
            
             if(e.getKeyCode() == KeyEvent.VK_RIGHT)
-                paddle.moveRight(); // if right, move right
+                paddle.moveRight(); /** if right, move right */
            
             if(e.getKeyCode() == KeyEvent.VK_UP)
-                paddle.shoot(ball); // if up, shoot
+                paddle.shoot(ball); /** if up, shoot */
         }
     }
     
     private class Listener implements ActionListener {
        public void actionPerformed(ActionEvent e){
-           // runs the game cycle for as long as needed
+           /** runs the game cycle for as long as needed */
            if (!gameOver && !gameWon) {
                 if (ball.isStuckToPaddle()) {
                     ball.stickToPaddle(paddle);
                 }
 
-               // moves ball within panel
+               /** moves ball within panel */
                 ball.move(FRAME, PANEL_HEIGHT);
                 PaddleCollision.collidePaddle(paddle, ball);
                 ballTouchesBlock();
@@ -137,7 +137,7 @@ public class MainPanel extends JPanel {
                     ball.resetBall();
                     ball.stickToPaddle(paddle);
 
-                    // checks if user has lives
+                    /** checks if user has lives */
                     if (lives <= 0) {
                         gameOver = true;
                     }
@@ -152,11 +152,11 @@ public class MainPanel extends JPanel {
     }
    
     public boolean ballTouchesBlock() {
-        // checks whether ball hits the block
+        /** checks whether ball hits the block */
         for (int i = 0; i < blocks.length; i++) {
             for (int j = 0; j < blocks[0].length; j++) {
                 Block block = blocks[i][j];
-                // checks for all the blocks unbroken
+                /** checks for all the blocks unbroken */
                 if (!block.isBroken() && PaddleCollision.collideBlock(block, ball)) {
                     int blockType = block.brokenBlock();
 
@@ -173,7 +173,7 @@ public class MainPanel extends JPanel {
     }
 
     private void applyPowerUp(int blockType, int column) {
-        // chooses which method to call
+        /** chooses which method to call */
         if (blockType == 3) {
             laser(column);
         }
@@ -188,7 +188,7 @@ public class MainPanel extends JPanel {
     }
 
     private void updatePowerUpTimers() {
-        // makes sure power ups don't last forever
+        /** makes sure power ups don't last forever */
         if (bigTimer > 0) {
             bigTimer--;
             if (bigTimer == 0) {
@@ -205,7 +205,9 @@ public class MainPanel extends JPanel {
     }
 
     private boolean allBlocksBroken() {
-        // checks for unbroken blocks to continue game
+        /** checks for unbroken blocks to continue game 
+         * @return boolean of if all blocks are broken or not
+        */
         for (int i = 0; i < blocks.length; i++) {
             for (int j = 0; j < blocks[0].length; j++) {
                 if (!blocks[i][j].isBroken()) {
@@ -217,7 +219,7 @@ public class MainPanel extends JPanel {
     }
 
     public void laser(int column) {
-        // destroys entire column of blocks
+        /** destroys entire column of blocks */
         for (int i = 0; i < blocks.length; i++) {
             if (!blocks[i][column].isBroken()) {
                 blocks[i][column].forceBreak();
