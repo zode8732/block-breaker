@@ -25,13 +25,17 @@ public class Block {
             hitsLeft = 1;
         }
     }
+    
+    public boolean touchesBall(Ball ball) {
+        // checks if paddle is touching ball to change ball direction
+        return getBounds().intersects(ball.getBounds()) && ball.getdy() > 0;
+    }
    
     public void draw(Graphics myBuffer) {
         if (blockType == 0) {
             return;
         }
-        
-        // draws block according to power up
+
         if (blockType == 1) {
             myBuffer.setColor(Color.BLUE);
         }
@@ -52,8 +56,7 @@ public class Block {
         myBuffer.setColor(Color.WHITE);
         myBuffer.drawRect(blockX, blockY, BLOCK_WIDTH, BLOCK_HEIGHT);
       if (blockType == 2) {
-          if (hitsLeft == 2)
-            myBuffer.drawString("2", blockX + BLOCK_WIDTH / 2 - 4, blockY + 17);
+        myBuffer.drawString("2", blockX + BLOCK_WIDTH / 2 - 4, blockY + 17);
       }
     }
 
