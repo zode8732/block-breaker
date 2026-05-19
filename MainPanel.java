@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
+import java.util.concurrent.TimeUnit;
 
 public class MainPanel extends JPanel {
    
@@ -21,6 +22,8 @@ public class MainPanel extends JPanel {
     private int lives = 3;
     private boolean gameOver = false;
     private boolean gameWon = false;
+    
+    private boolean movingRight, movingLeft = false;
 
     private int bigTimer = 0;
     private int slowTimer = 0;
@@ -45,16 +48,17 @@ public class MainPanel extends JPanel {
             for (int j = 0; j < blocks[0].length; j++) {
                 int powerUpType = 1;
 
-                double d = Math.random() * 11;
-                
-                if (d > 6) {
-                    powerUpType = 2;
-                } if (d > 7) {
-                    powerUpType = 3;
-                } if (d > 8) {
-                    powerUpType = 4;
-                } if (d > 10) {
-                    powerUpType = 5;
+                if (i == 0) {
+                    powerUpType = 2;       
+                }
+                if (i == 2 && j == 1) {
+                    powerUpType = 3;      
+                }
+                if (i == 3 && j == 4) {
+                    powerUpType = 4;       
+                }
+                if (i == 4 && j == 6) {
+                    powerUpType = 5;       
                 }
 
                 blocks[i][j] = new Block(i, j, powerUpType);
@@ -103,21 +107,26 @@ public class MainPanel extends JPanel {
    
     private class Key extends KeyAdapter {
         // check if left, right, and/or up keys are pressed
-        public void keyPressed(KeyEvent e) {
-            if (gameOver || gameWon) {
-                return;
+            public void keyPressed(KeyEvent e) {
+                int key = e.getKeyCode();
+                if (key == KeyEvent.VK_LEFT) 
+                    setMovingLeft(true);
+                if (key == KeyEvent.VK_RIGHT) 
+                    setMovingRight(true);
+                if (key == KeyEvent.VK_UP) 
+                    paddle.shoot(ball);
             }
-            
-            if(e.getKeyCode() == KeyEvent.VK_LEFT)
-                paddle.moveLeft(); // if left, move left
-           
-            if(e.getKeyCode() == KeyEvent.VK_RIGHT)
-                paddle.moveRight(); // if right, move right
-           
-            if(e.getKeyCode() == KeyEvent.VK_UP)
-                paddle.shoot(ball); // if up, shoot
-        }
+
+            public void keyReleased(KeyEvent e) {
+                int key = e.getKeyCode();
+                if (key == KeyEvent.VK_LEFT) 
+                    setMovingLeft(false);
+                if (key == KeyEvent.VK_RIGHT) 
+                    setMovingRight(false);
+            }
     }
+
+    
     
     private class Listener implements ActionListener {
        public void actionPerformed(ActionEvent e){
@@ -147,6 +156,7 @@ public class MainPanel extends JPanel {
                 gameWon = allBlocksBroken();
             }
            
+            updateIt(paddle);
             repaint();
        }
     }
@@ -157,7 +167,7 @@ public class MainPanel extends JPanel {
             for (int j = 0; j < blocks[0].length; j++) {
                 Block block = blocks[i][j];
                 // checks for all the blocks unbroken
-                if (!block.isBroken() && PaddleCollision.collideBlock(block, ball)) {
+                if (!block.isBroken() && PaddleCollision.ifCollideBlock(block, ball)) {
                     int blockType = block.brokenBlock();
 
                     if (blockType != 0) {
@@ -216,6 +226,11 @@ public class MainPanel extends JPanel {
         return true;
     }
 
+    private double distance(double x1, double x2, double y1, double y2) {
+        // calculates distance using pythagorean theorem
+        return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+    }
+
     public void laser(int column) {
         // destroys entire column of blocks
         for (int i = 0; i < blocks.length; i++) {
@@ -225,4 +240,20 @@ public class MainPanel extends JPanel {
             }
         }
     }
+    
+    public void setMovingLeft(boolean b) { 
+        movingLeft = b; 
+    }
+    public void setMovingRight(boolean b) { 
+        movingRight = b; 
+    }
+    
+    public void updateIt(Paddle paddle) {
+        if (movingLeft == true) 
+            paddle.moveLeft();
+        if (movingRight == true) 
+            paddle.moveRight();
+    }
+
+
 }
