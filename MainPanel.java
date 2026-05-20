@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
 import java.util.concurrent.TimeUnit;
+import java.awt.geom.*;
 
 public class MainPanel extends JPanel {
    
@@ -11,7 +12,7 @@ public class MainPanel extends JPanel {
     private static final Color BACKGROUND = Color.BLACK;
 
     private BufferedImage myImage;
-    private Graphics myBuffer;
+    private Graphics2D myBuffer;
     private Timer t;
 
     Paddle paddle = new Paddle();
@@ -34,7 +35,7 @@ public class MainPanel extends JPanel {
         setFocusable(true);
 
         myImage = new BufferedImage(FRAME, PANEL_HEIGHT, BufferedImage.TYPE_INT_RGB);
-        myBuffer = myImage.getGraphics();
+        myBuffer = (Graphics2D) myImage.createGraphics();
 
         buildBlocks();
 
@@ -70,6 +71,8 @@ public class MainPanel extends JPanel {
    public void paintComponent(Graphics g) {
        // draws components on panel
         super.paintComponent(g);
+
+        myBuffer = myImage.createGraphics();
 
         myBuffer.setColor(BACKGROUND);
         myBuffer.fillRect(0, 0, FRAME, PANEL_HEIGHT);
