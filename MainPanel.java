@@ -49,24 +49,22 @@ public class MainPanel extends JPanel {
             for (int j = 0; j < blocks[0].length; j++) {
                 int powerUpType = 1;
 
-                if (i == 0) {
-                    powerUpType = 2;       
-                }
-                if (i == 2 && j == 1) {
-                    powerUpType = 3;      
-                }
-                if (i == 3 && j == 4) {
-                    powerUpType = 4;       
-                }
-                if (i == 4 && j == 6) {
-                    powerUpType = 5;       
+                double d = Math.random() * 11;
+                
+                if (d > 6) {
+                    powerUpType = 2;
+                } if (d > 7) {
+                    powerUpType = 3;
+                } if (d > 8) {
+                    powerUpType = 4;
+                } if (d > 10) {
+                    powerUpType = 5;
                 }
 
                 blocks[i][j] = new Block(i, j, powerUpType);
             }
         }
     }
-
 
    public void paintComponent(Graphics g) {
        // draws components on panel
