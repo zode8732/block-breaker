@@ -1,41 +1,69 @@
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
+import java.awt.Rectangle;
+
 public class PaddleCollision {
     
     private static double nearestX; // used to approximate what point of the paddle  
     private static double nearestY;  // a ball collided with
     
+    static Rectangle2D lineTop, lineLeft, lineRight, lineBottom;
+    
+    static double tempX, tempY;
+    
     public static void collideBlock(Block block, Ball ball)
    {
         // see if the ball hit the paddle!
-        if(block.touchesBall(ball))
-        {  
-            // back the ball up until it is just outside the paddle
-            while(block.touchesBall(ball))
-            {
-                ball.setX(ball.getX() - (int)(ball.getdx()/10.0));
-                ball.setY(ball.getY() - (int)(ball.getdy()/10.0));
+            /*
+            double ballCenterY = ball.getY() + (ball.getDiameter() / 2.0);
+            double blockBottom = block.getY() + block.getHeight();
+            double blockTop = block.getY();
+            double blockLeft = block.getX();
+            double blockRight = block.getX() + block.getWidth();
+
+            // Hit Bottom (Ball moving UP)
+            if (ball.getdy() > 0 && (ball.getY() + ball.getDiameter()) > blockTop) {
+                ball.setdy(-1 * Math.abs(ball.getdy())); // Force dy negative (up)
+                ball.setY(blockTop - ball.getDiameter());  // Snap to top edge
+            } else if (ball.getdx() < 0 && ball.getX() < blockRight && ball.getX() > blockLeft) {
+                ball.setdx(Math.abs(ball.getdx())); // Force dx positive (right)
+                ball.setX(blockRight);             // Snap to right edge
+            } else if (ball.getdx() > 0 && (ball.getX() + ball.getDiameter()) > blockLeft) {
+                ball.setdx(-1 * Math.abs(ball.getdx())); // Force dx negative (left)
+                ball.setX(blockLeft - ball.getDiameter());  // Snap to left edge
+            } else if (ball.getdy() < 0 && ball.getY() < blockBottom && ball.getY() > blockTop) {
+                ball.setdy(Math.abs(ball.getdy())); // Force dy positive (down)
+                ball.setY(blockBottom);             // Snap to bottom edge
             }
-           
-            // find the point on the edge of the paddle closest to the ball
-            findImpactPoint(block, ball);
-           
-            double ux=nearestX-ball.getX();
-            double uy=nearestY-ball.getY();
-            double ur=Math.sqrt(ux*ux+uy*uy);
-            ux/=ur;
-            uy/=ur;
-            int dx=(int)ball.getdx();
-            int dy=(int)ball.getdy();
-            double dot_1= ux*dx+uy*dy;
-            double dot_2=-uy*dx+ux*dy;
-            dot_1*=-1; // this is the actual "bounce"
-            double[] d = new double[2];
-            d[0]=dot_1*ux-dot_2*uy;      //vector math
-            d[1]=dot_1*uy+dot_2*ux;      //vector math
-            dx=(int)Math.round(d[0]);
-            dy=(int)Math.round(d[1]);
-            ball.setdx(dx);
-            ball.setdy(dy);
-        }
+            */
+            
+            
+            
+            // set coordinates to push ball to a bit
+            tempX = ball.getX()-ball.getdx();
+            tempY = ball.getY()-ball.getdy();
+            
+            // establish lines of a block 
+            makeLines(block);
+            
+            // based on where ball hit block, reverse dx or dy
+            if(topIntersects(ball) && ball.getdy() > 0){ 
+                ball.setdy(-1 * Math.abs(ball.getdy()));
+            } else if(bottomIntersects(ball) && ball.getdy() < 0){ 
+                ball.setdy(Math.abs(ball.getdy()));
+            } else if(leftIntersects(ball) && ball.getdx() > 0){ 
+                ball.setdx(-1 * Math.abs(ball.getdx()));
+            } else if(rightIntersects(ball) && ball.getdx() < 0) { 
+                ball.setdx(Math.abs(ball.getdx()));
+            }
+            
+            // push ball so that it doesn't cruise through blocks
+            ball.setX(tempX);
+            ball.setY(tempY);
+            
+        
     }
     public static void collidePaddle(Paddle paddle, Ball ball) {
         if (paddle.touchesBall(ball)) {
@@ -48,10 +76,13 @@ public class PaddleCollision {
         if (block.isBroken()) {
             return false;
         }
+        
+        Area areaA = new Area(block.getBounds());
+        Area areaB = new Area(ball.getBounds());
+        areaA.intersect(areaB);
 
-        if (block.getBounds().intersects(ball.getBounds())) {
-            findImpactPoint(block, ball);
-            ball.bounceBlock();
+        if (!areaA.isEmpty()) {
+            collideBlock(block, ball);
             return true;
         }
 
@@ -107,5 +138,40 @@ public class PaddleCollision {
 
     private static double distance(double x1, double y1, double x2, double y2) {
         return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+    }
+    
+    private static void makeLines(Block block) {
+        lineTop = new Rectangle2D.Double(block.getX()+1, block.getY()-2, block.getWidth()-2, 3);
+        lineLeft = new Rectangle2D.Double(block.getX()-2, block.getY(), 3, block.getHeight());
+        lineRight = new Rectangle2D.Double(block.getX()+block.getWidth()-1, block.getY(), 3, block.getHeight());
+        lineBottom = new Rectangle2D.Double(block.getX()+1, block.getY()+block.getHeight()-1, block.getWidth()-2, 3);
+    }
+    
+    private static boolean topIntersects(Ball ball) {
+        Area areaA = new Area(lineTop.getBounds());
+        Area areaB = new Area(ball.getBounds());
+        areaA.intersect(areaB);
+        return !areaA.isEmpty();
+    }
+    
+    private static boolean leftIntersects(Ball ball) {
+        Area areaA = new Area(lineLeft.getBounds());
+        Area areaB = new Area(ball.getBounds());
+        areaA.intersect(areaB);
+        return !areaA.isEmpty();
+    }
+    
+    private static boolean rightIntersects(Ball ball) {
+        Area areaA = new Area(lineRight.getBounds());
+        Area areaB = new Area(ball.getBounds());
+        areaA.intersect(areaB);
+        return !areaA.isEmpty();
+    }
+    
+    private static boolean bottomIntersects(Ball ball) {
+        Area areaA = new Area(lineBottom.getBounds());
+        Area areaB = new Area(ball.getBounds());
+        areaA.intersect(areaB);
+        return !areaA.isEmpty();
     }
 }
