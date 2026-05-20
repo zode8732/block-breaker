@@ -1,11 +1,14 @@
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
 
 public class Ball {
 
-	private int myX;
-    private int myY;
-    private int startX;
-    private int startY;
+	private double myX;
+    private double myY;
+    private double startX;
+    private double startY;
     private int myDiameter = 16;
     private Color myColor = Color.WHITE;
 	
@@ -31,9 +34,9 @@ public class Ball {
         bounceWall(rightEdge);
     }
 
-    public void draw(Graphics myBuffer) {
+    public void draw(Graphics2D myBuffer) {
         myBuffer.setColor(myColor);
-        myBuffer.fillOval(myX, myY, myDiameter, myDiameter);
+        myBuffer.fill(new Ellipse2D.Double(myX, myY, myDiameter, myDiameter));
     }
     
     public void setdx(double x) {
@@ -46,11 +49,11 @@ public class Ball {
 		dy = y;
     }
 
-    public void setX(int x) {
+    public void setX(double x) {
         myX = x;
     }
 
-    public void setY(int x) {
+    public void setY(double x) {
         myY = x;
     }
 
@@ -69,7 +72,7 @@ public class Ball {
         double ballCenter = getCenterX();
         double hitPosition = (ballCenter - paddleCenter) / (paddle.getWidth() / 2.0);
 
-        dx = hitPosition * 5;
+        dx = hitPosition * 3;
         dy = -Math.abs(dy);
 
         myY = paddle.getY() - myDiameter - 1;
@@ -88,7 +91,7 @@ public class Ball {
         }
 
         if (myX + myDiameter >= rightEdge) {
-            myX = (int)rightEdge - myDiameter;
+            myX = rightEdge - myDiameter;
             dx = -Math.abs(dx);
         }
 
@@ -97,11 +100,7 @@ public class Ball {
             dy = Math.abs(dy);
         }
     }
-    
-    public void bounceBlock() {
-        // if hits block, bounce off block
-		dy *= -1;
-    }
+
 
 	// self explanatory get methods
 
@@ -113,11 +112,11 @@ public class Ball {
         return dy;
     }
 
-	public int getX() {
+	public double getX() {
         return myX;
     }
 
-    public int getY() {
+    public double getY() {
         return myY;
     }
 
@@ -133,8 +132,8 @@ public class Ball {
         return myY + myDiameter / 2.0;
     }
 
-    public Rectangle getBounds() {
-        return new Rectangle(myX, myY, myDiameter, myDiameter);
+    public Ellipse2D.Double getBounds() {
+        return new Ellipse2D.Double(myX, myY, myDiameter, myDiameter);
     }
 
     public boolean isOutOfBounds(double bottomEdge) {
