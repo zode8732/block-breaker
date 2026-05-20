@@ -1,4 +1,7 @@
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
 
 public class Paddle {
    
@@ -49,8 +52,8 @@ public class Paddle {
         // when the ball is on the paddle, sets the ball's dx and dy to a value
         if (ball.isStuckToPaddle()) {
             ball.setStuckToPaddle(false);
-            ball.setdx(3);
-            ball.setdy(-4);
+            ball.setdx(0.3);
+            ball.setdy(-0.6);
         }
     }
    
@@ -62,7 +65,12 @@ public class Paddle {
    
     public boolean touchesBall(Ball ball) {
         // checks if paddle is touching ball to change ball direction
-        return getBounds().intersects(ball.getBounds()) && ball.getdy() > 0;
+        Area areaA = new Area(getBounds());
+        Area areaB = new Area(ball.getBounds());
+        areaA.intersect(areaB);
+        return !areaA.isEmpty() && ball.getdy() > 0;
+
+        //return getBounds().intersects(ball.getBounds()) && ball.getdy() > 0;
     }
 
     // these two methods change speed for a power up
@@ -104,8 +112,8 @@ public class Paddle {
         return myHeight;
     }
 
-    public Rectangle getBounds() {
-        return new Rectangle(myX, myY, myWidth, myHeight);
+    public Rectangle2D.Double getBounds() {
+        return new Rectangle2D.Double(myX, myY, myWidth, myHeight);
     }
     
     private double distance(double x1, double x2, double y1, double y2) {
