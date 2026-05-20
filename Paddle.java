@@ -20,7 +20,10 @@ public class Paddle {
        
     }
 
-    public Paddle(int y, Color color, int width, int height) { // Makes the paddle
+    public Paddle(int y, Color color, int width, int height) {
+       /**
+       * Makes the paddle with given parameters 
+       */
        myY = y;
        myColor = color;
        myWidth = width;
@@ -29,7 +32,9 @@ public class Paddle {
     }
    
     public void moveLeft() {
-        // decreases the x value of the panel
+       /**
+       * Decreases the x value of the panel
+       */
        myX -= xSpeed;
        if (myX < 0) {
           myX = 0;
@@ -37,7 +42,9 @@ public class Paddle {
     }
    
     public void moveRight() {
-        // increases x value of the panel
+        /**
+       * Increases x value of the panel
+       */
         myX += xSpeed;
         if (myX + myWidth > rightEdge) {
             myX = rightEdge - myWidth;
@@ -49,7 +56,9 @@ public class Paddle {
     }
    
     public void shoot(Ball ball) {
-        // when the ball is on the paddle, sets the ball's dx and dy to a value
+        /**
+        * When the ball is on the paddle, sets the ball's dx and dy to a value
+        */
         if (ball.isStuckToPaddle()) {
             ball.setStuckToPaddle(false);
             ball.setdx(0.3);
@@ -58,25 +67,35 @@ public class Paddle {
     }
    
     public void draw(Graphics myBuffer) {
-        // draws paddle
+        /** 
+        * draws paddle
+           */
         myBuffer.setColor(myColor);
         myBuffer.fillRect(myX, myY, myWidth, myHeight);
     }
    
     public boolean touchesBall(Ball ball) {
-        // checks if paddle is touching ball to change ball direction
+        /** 
+        * checks if paddle is touching ball to change ball direction 
+        */
         Area areaA = new Area(getBounds());
         Area areaB = new Area(ball.getBounds());
         areaA.intersect(areaB);
         return !areaA.isEmpty() && ball.getdy() > 0;
 
-        //return getBounds().intersects(ball.getBounds()) && ball.getdy() > 0;
+        /** 
+        * return getBounds().intersects(ball.getBounds()) && ball.getdy() > 0; 
+        */
     }
 
-    // these two methods change speed for a power up
+    /** 
+    * these two methods change speed for a power up 
+    */
     
     public void slowDown() {
-        // changes paddle xSpeed temporarily
+        /** 
+        * changes paddle xSpeed temporarily
+        */
         xSpeed = 3;
     }
 
@@ -85,7 +104,9 @@ public class Paddle {
     }
 
     public void makeBig() {
-        // paddle with is modified temporarily
+        /** 
+        * paddle with is modified temporarily 
+        */
         myWidth = 150;
         if (myX + myWidth > rightEdge) {
             myX = rightEdge - myWidth;
@@ -96,6 +117,9 @@ public class Paddle {
         myWidth = normalWidth;
     }
 
+   /** 
+   * get methods and return fields 
+   */
     public int getX() {
         return myX;
     }
@@ -117,7 +141,9 @@ public class Paddle {
     }
     
     private double distance(double x1, double x2, double y1, double y2) {
-        // calculates distance using pythagorean theorem
+        /** 
+        * calculates distance using pythagorean theorem 
+        */
         return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
     }
 }
