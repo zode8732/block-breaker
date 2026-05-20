@@ -1,3 +1,8 @@
+/**
+Made by Garida Bathkhuu, Vivaan Khambhati, and Brandon Kong
+Use up arrow to shoot ball, left and right arrow keys to move paddle
+*/
+
 import javax.swing.JFrame;
 
 public class driver
